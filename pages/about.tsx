@@ -65,7 +65,7 @@ export default function About() {
                         Visit my GitHub profile here:{' '}
                         <Link href="https://github.com/keyb0ardninja" passHref>
                             <MUILink variant="inherit">
-                                https://github.com/keyb0ardninja
+                                https://github.com/deb947
                             </MUILink>
                         </Link>
                     </Typography>
