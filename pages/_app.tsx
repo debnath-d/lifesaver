@@ -13,7 +13,7 @@ export default function MyApp(props: AppProps) {
     const { Component, pageProps } = props;
 
     // const [user, setUser] = useState('');
-    const [darkMode, setDarkMode] = useState(true);
+    const [darkMode, setDarkMode] = useState(false);
     const [message, setMessage] = useState<{
         severity: AlertProps['severity'];
         message: string;
