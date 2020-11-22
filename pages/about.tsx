@@ -63,7 +63,7 @@ export default function About() {
                         gutterBottom
                     >
                         Visit my GitHub profile here:{' '}
-                        <Link href="https://github.com/keyb0ardninja" passHref>
+                        <Link href="https://github.com/deb947" passHref>
                             <MUILink variant="inherit">
                                 https://github.com/deb947
                             </MUILink>
