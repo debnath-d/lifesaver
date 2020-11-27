@@ -13,7 +13,18 @@ export default function MyApp(props: AppProps) {
     const { Component, pageProps } = props;
 
     // const [user, setUser] = useState('');
-    const [darkMode, setDarkMode] = useState(false);
+
+    let darkModePreference = false;
+    if (process.browser) {
+        const userPreference = localStorage.getItem('userPreference');
+
+        if (typeof userPreference === 'string') {
+            darkModePreference = JSON.parse(userPreference).darkMode;
+        }
+    }
+
+    const [darkMode, setDarkMode] = useState(darkModePreference);
+    const [selectedIndex, setSelectedIndex] = useState(3);
     const [message, setMessage] = useState<{
         severity: AlertProps['severity'];
         message: string;
@@ -83,10 +94,12 @@ export default function MyApp(props: AppProps) {
                 <Dashboard
                     paletteType={{ darkMode, setDarkMode }}
                     message={{ message, setMessage }}
+                    drawer={{ selectedIndex, setSelectedIndex }}
                 >
                     <Component
                         {...pageProps}
                         message={{ message, setMessage }}
+                        drawer={{ selectedIndex, setSelectedIndex }}
                     />
                 </Dashboard>
                 {/* </UserContext.Provider> */}

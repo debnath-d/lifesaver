@@ -17,16 +17,24 @@ import MUILink from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './listItems';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
 // import { UserContext } from '../utils/UserContext';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import Tooltip from '@material-ui/core/Tooltip';
 import { relative } from 'path';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import PersonIcon from '@material-ui/icons/Person';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 function Copyright() {
     return (
@@ -131,6 +139,7 @@ export default function Dashboard({
         message: { severity, message, openMessage },
         setMessage,
     },
+    drawer: { selectedIndex, setSelectedIndex },
 }: any) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -142,8 +151,8 @@ export default function Dashboard({
     };
 
     // const { user, setUser } = useContext(UserContext);
-    const [signingOut, setSigningOut] = useState(false);
-    const router = useRouter();
+    // const [signingOut, setSigningOut] = useState(false);
+    // const router = useRouter();
 
     // const handleSignOut = async () => {
     //     setSigningOut(true);
@@ -159,7 +168,13 @@ export default function Dashboard({
     // };
 
     const handleDarkMode = () => {
-        setDarkMode(!darkMode);
+        setDarkMode((prevstate: boolean) => {
+            localStorage.setItem(
+                'userPreference',
+                JSON.stringify({ darkMode: !prevstate })
+            );
+            return !prevstate;
+        });
     };
 
     const handleClose = (event?: SyntheticEvent, reason?: string) => {
@@ -171,6 +186,15 @@ export default function Dashboard({
             ...prevMessage,
             openMessage: false,
         }));
+    };
+
+    // const [selectedIndex, setSelectedIndex] = useState(0);
+
+    const handleListItemClick = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        index: number
+    ) => {
+        setSelectedIndex(index);
     };
 
     return (
@@ -206,7 +230,7 @@ export default function Dashboard({
                             LifeSaver
                         </MUILink>
                     </Link>
-                    <Link href="/fundraiser/new">
+                    <Link href="/fundraiser/new" passHref>
                         <Tooltip title="Start New Fundraiser">
                             <IconButton color="inherit">
                                 <Badge color="secondary">
@@ -234,17 +258,16 @@ export default function Dashboard({
                         </Link>
                     )} */}
 
-                    {darkMode ? (
-                        <Button color="inherit" onClick={handleDarkMode}>
-                            Light Mode
-                        </Button>
-                    ) : (
-                        <Button color="inherit" onClick={handleDarkMode}>
-                            Dark Mode
-                        </Button>
-                    )}
-                    <Link href="/about">
+                    <Button color="inherit" onClick={handleDarkMode}>
+                        {darkMode ? 'Light' : 'Dark'} Mode
+                    </Button>
+                    <Link href="/about" passHref>
                         <Button color="inherit">About Us</Button>
+                    </Link>
+                    <Link href="https://github.com/deb947/lifesaver" passHref>
+                        <IconButton color="inherit">
+                            <GitHubIcon />
+                        </IconButton>
                     </Link>
                 </Toolbar>
             </AppBar>
@@ -265,7 +288,49 @@ export default function Dashboard({
                     </IconButton>
                 </div>
                 <Divider />
-                <List>{mainListItems}</List>
+                {/* <List>{mainListItems}</List> */}
+                <List component="nav" aria-label="main mailbox folders">
+                    <ListItem
+                        button
+                        selected={selectedIndex === 3}
+                        onClick={(event) => handleListItemClick(event, 3)}
+                    >
+                        <ListItemIcon>
+                            <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="All fundraisers" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        selected={selectedIndex === 0}
+                        onClick={(event) => handleListItemClick(event, 0)}
+                    >
+                        <ListItemIcon>
+                            <AttachMoneyIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Open fundraisers" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        selected={selectedIndex === 1}
+                        onClick={(event) => handleListItemClick(event, 1)}
+                    >
+                        <ListItemIcon>
+                            <AccessTimeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Over deadline" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        selected={selectedIndex === 2}
+                        onClick={(event) => handleListItemClick(event, 2)}
+                    >
+                        <ListItemIcon>
+                            <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Your fundraisers" />
+                    </ListItem>
+                </List>
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />

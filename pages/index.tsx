@@ -50,7 +50,6 @@ const fetcher = async (address: string) => {
     try {
         const factory = getFactoryInstance(address);
         const response = await factory.methods.getDeployedFundraisers().call();
-        // console.log('response', response);
         return response
             ?.slice(0)
             .reverse()
@@ -75,6 +74,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function Home({
     fundraisers: initialData,
+    drawer: { selectedIndex },
 }: InferGetStaticPropsType<typeof getStaticProps>) {
     const classes = useStyles();
 
@@ -82,6 +82,36 @@ export default function Home({
         initialData,
         revalidateOnMount: true,
     });
+
+    function Condition({
+        beneficiary,
+        deadline,
+    }: {
+        beneficiary: string;
+        deadline: string;
+    }) {
+        switch (selectedIndex) {
+            case 0:
+                return new Date(+deadline * 1000) > new Date();
+            case 1:
+                return new Date(+deadline * 1000) < new Date();
+            case 2:
+                try {
+                    return (
+                        beneficiary.toUpperCase() ===
+                        window.ethereum.selectedAddress.toUpperCase()
+                    );
+                } catch (e) {
+                    console.log(e);
+                    return false;
+                }
+            case 3:
+                return true;
+            default:
+                console.log(`Invalid menu item ${selectedIndex}.`);
+                return true;
+        }
+    }
 
     // const [fundraisers, setFundraisers] = useState(serverData.fundraisers);
 
@@ -186,106 +216,107 @@ export default function Home({
                             minimum: string;
                             name: string;
                             target: string;
-                        }) => (
-                            <Grid
-                                item
-                                sm={12}
-                                md={9}
-                                lg={6}
-                                key={fundraiserAddress}
-                            >
-                                <Card className={classes.root}>
-                                    <CardHeader
-                                        // action={
-                                        //   <IconButton aria-label="settings">
-                                        //     <MoreVertIcon />
-                                        //   </IconButton>
-                                        // }
-                                        title={name}
-                                        subheader={
-                                            <Typography variant="caption">
-                                                by{' '}
-                                                <MUILink
-                                                    href={`https://rinkeby.etherscan.io/address/${beneficiary}`}
-                                                    variant="inherit"
-                                                >
-                                                    {beneficiary}
-                                                </MUILink>
+                        }) =>
+                            Condition({ beneficiary, deadline }) && (
+                                <Grid
+                                    item
+                                    sm={12}
+                                    md={9}
+                                    lg={6}
+                                    key={fundraiserAddress}
+                                >
+                                    <Card className={classes.root}>
+                                        <CardHeader
+                                            // action={
+                                            //   <IconButton aria-label="settings">
+                                            //     <MoreVertIcon />
+                                            //   </IconButton>
+                                            // }
+                                            title={name}
+                                            subheader={
+                                                <Typography variant="caption">
+                                                    by{' '}
+                                                    <MUILink
+                                                        href={`https://rinkeby.etherscan.io/address/${beneficiary}`}
+                                                        variant="inherit"
+                                                    >
+                                                        {beneficiary}
+                                                    </MUILink>
+                                                </Typography>
+                                            }
+                                        />
+                                        <Divider variant="middle" />
+                                        <CardContent>
+                                            <Typography
+                                                className={classes.title}
+                                                color="textSecondary"
+                                                gutterBottom
+                                            >
+                                                {`Minimum ${web3.utils.fromWei(
+                                                    minimum,
+                                                    'ether'
+                                                )} ether`}
                                             </Typography>
-                                        }
-                                    />
-                                    <Divider variant="middle" />
-                                    <CardContent>
-                                        <Typography
-                                            className={classes.title}
-                                            color="textSecondary"
-                                            gutterBottom
-                                        >
-                                            {`Minimum ${web3.utils.fromWei(
-                                                minimum,
-                                                'ether'
-                                            )} ether`}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            component="p"
-                                            gutterBottom
-                                        >
-                                            Fundraiser Address:{' '}
-                                            {fundraiserAddress}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            component="p"
-                                            gutterBottom
-                                        >
-                                            {`Target ${web3.utils.fromWei(
-                                                target,
-                                                'ether'
-                                            )} ether`}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            component="p"
-                                        >
-                                            Deadline:{' '}
-                                            {new Date(
-                                                +deadline * 1000
-                                            ).toLocaleString('en-IN', {
-                                                timeZoneName: 'short',
-                                                hour12: true,
-                                            })}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Link
-                                            as={`/fundraiser/${fundraiserAddress}`}
-                                            href="/fundraiser/[fundraiser]"
-                                            passHref
-                                        >
-                                            <Button
-                                                size="small"
-                                                // variant="outlined"
-                                                color="primary"
+                                            <Typography
+                                                variant="body2"
+                                                component="p"
+                                                gutterBottom
                                             >
-                                                Contribute ❤
-                                            </Button>
-                                        </Link>
-                                        <Link
-                                            href={`https://rinkeby.etherscan.io/address/${fundraiserAddress}`}
-                                            passHref
-                                        >
-                                            <Button
-                                                size="small"
-                                                color="secondary"
+                                                Fundraiser Address:{' '}
+                                                {fundraiserAddress}
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                component="p"
+                                                gutterBottom
                                             >
-                                                View on Etherscan
-                                            </Button>
-                                        </Link>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        )
+                                                {`Target ${web3.utils.fromWei(
+                                                    target,
+                                                    'ether'
+                                                )} ether`}
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                component="p"
+                                            >
+                                                Deadline:{' '}
+                                                {new Date(
+                                                    +deadline * 1000
+                                                ).toLocaleString('en-IN', {
+                                                    timeZoneName: 'short',
+                                                    hour12: true,
+                                                })}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Link
+                                                as={`/fundraiser/${fundraiserAddress}`}
+                                                href="/fundraiser/[fundraiser]"
+                                                passHref
+                                            >
+                                                <Button
+                                                    size="small"
+                                                    // variant="outlined"
+                                                    color="primary"
+                                                >
+                                                    Contribute ❤
+                                                </Button>
+                                            </Link>
+                                            <Link
+                                                href={`https://rinkeby.etherscan.io/address/${fundraiserAddress}`}
+                                                passHref
+                                            >
+                                                <Button
+                                                    size="small"
+                                                    color="secondary"
+                                                >
+                                                    View on Etherscan
+                                                </Button>
+                                            </Link>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            )
                     )}
                 </Grid>
             </Container>
