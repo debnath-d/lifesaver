@@ -35,7 +35,7 @@ export default function About() {
                         color="textPrimary"
                         gutterBottom
                     >
-                        D. Debnath
+                        About Us
                     </Typography>
                     <Divider />
                     <Typography
@@ -45,7 +45,9 @@ export default function About() {
                         gutterBottom
                         className={classes.padding}
                     >
-                        I'm a final year Computer Science student.
+                        We're D. Debnath, Ayaskant Dwibedy and Harshit Garg, and
+                        we're a team of of undergraduate students from IIITDM
+                        Jabalpur.
                     </Typography>
                     <Typography
                         component="p"
@@ -53,21 +55,8 @@ export default function About() {
                         color="textPrimary"
                         gutterBottom
                     >
-                        I love technology and open-source software. I'm an
-                        active KDE and Arch Linux user.
-                    </Typography>
-                    <Typography
-                        component="p"
-                        variant="body1"
-                        color="textPrimary"
-                        gutterBottom
-                    >
-                        Visit my GitHub profile here:{' '}
-                        <Link href="https://github.com/deb947" passHref>
-                            <MUILink variant="inherit">
-                                https://github.com/deb947
-                            </MUILink>
-                        </Link>
+                        We have created this project as part of our Blockchain
+                        course by Prof. Ojha.
                     </Typography>
                 </CardContent>
             </Card>

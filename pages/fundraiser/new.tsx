@@ -29,7 +29,7 @@ declare global {
     }
 }
 
-export const ETHINR = 40131;
+export const ETHINR = 46500;
 const maximumDate = new Date(Date.now() + 60 * 24 * 3600000);
 
 interface DatePickerFieldProps extends FieldProps, BaseDatePickerProps {
@@ -233,7 +233,6 @@ export default function New({ message: { setMessage } }: any) {
                                 name="name"
                                 autoFocus
                                 autoComplete="name"
-                                // as={TextField}
                             />
 
                             <MyTextField
@@ -254,7 +253,6 @@ export default function New({ message: { setMessage } }: any) {
                                         </InputAdornment>
                                     ),
                                 }}
-                                as={TextField}
                             />
                             <MyTextField
                                 placeholder={`1 ether = ₹ ${ETHINR.toLocaleString()} (approx)`}
@@ -274,7 +272,6 @@ export default function New({ message: { setMessage } }: any) {
                                         </InputAdornment>
                                     ),
                                 }}
-                                as={TextField}
                             />
                             <Field
                                 name="deadline"
