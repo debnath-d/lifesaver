@@ -1,0 +1,1 @@
+_N_E=(window.webpackJsonp_N_E=window.webpackJsonp_N_E||[]).push([[13],{GG9e:function(n,_,w){(window.__NEXT_P=window.__NEXT_P||[]).push(["/fundraiser/new",function(){return w("gHdk")}])}},[["GG9e",0,1,3,2,4,6,5,7]]]);
