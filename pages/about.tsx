@@ -35,7 +35,7 @@ export default function About() {
                         color="textPrimary"
                         gutterBottom
                     >
-                        About Us
+                        About Me
                     </Typography>
                     <Divider />
                     <Typography
@@ -45,18 +45,8 @@ export default function About() {
                         gutterBottom
                         className={classes.padding}
                     >
-                        We're D. Debnath, Ayaskant Dwibedy and Harshit Garg, and
-                        we're a team of of undergraduate students from IIITDM
-                        Jabalpur.
-                    </Typography>
-                    <Typography
-                        component="p"
-                        variant="body1"
-                        color="textPrimary"
-                        gutterBottom
-                    >
-                        We have created this project as part of our Blockchain
-                        course by Prof. Ojha.
+                        Hello world, I'm D. Debnath. I love exploring
+                        cutting-edge technology :)
                     </Typography>
                 </CardContent>
             </Card>

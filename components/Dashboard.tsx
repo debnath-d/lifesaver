@@ -262,7 +262,7 @@ export default function Dashboard({
                         {darkMode ? 'Light' : 'Dark'} Mode
                     </Button>
                     <Link href="/about" passHref>
-                        <Button color="inherit">About Us</Button>
+                        <Button color="inherit">About</Button>
                     </Link>
                     <Link href="https://github.com/deb947/lifesaver" passHref>
                         <IconButton color="inherit">
